@@ -1,0 +1,102 @@
+/*Mengatur background halaman menggunakan foto kucing */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Segoe UI' , Tahoma , Geneva , Verdana, Sans-Serif;
+    background-image: url('kucing.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/*Halaman utama kalkulator transparan*/
+.calculator {
+    background: rgba(255, 255, 255, 0.25) ;
+    background-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    width:320px;
+}
+
+/* Layar tampilan angka */
+#display {
+    width: 100%;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 2rem;
+    text-align: right;
+    padding: 0 15px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+/*Grid untuk tombol-tombol*/
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+/*Desain dasar tombol*/
+button {
+    padding: 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.85);
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/*Efek interaksi tombol*/
+button:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* Warna tombol operator */
+.operator {
+    background:#ffb347;
+    color:white;
+}
+.operator:hover {
+    background:#ffa024;
+}
+  
+/* Warna tombol Clear (C) */
+.clear { 
+    background:#ff6b6b;
+    color:white;
+}
+.clear:hover { 
+    background:#ee5253;
+}
+  
+/* Warns tombol sama dengan (=) */
+.equal {
+    background: #1dd1a1;
+    color: white;
+    grid-column: span 2;
+}
+.equal:hover {
+    background: #10ac84;
+}
