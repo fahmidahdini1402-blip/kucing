@@ -1,42 +1,58 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator by Fahmidah</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  
-    <div class="calculator">
-        <input type="text" id="display" readonly placeholder="0">
+const display = document.getElementById('display');
+
+/**
+ * Fungsi untuk menghasilkan bunyi beep imut menggunakan Web Audio API
+ */
+ function playBeepSound() {
+   try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillattor();
+        const grainNode = audioCtx.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        // Jenis gelombang suara lembut 
+        oscillator.type = 'sine';
         
-        <div class="buttons">
-            <button class="clear" onclick="pressButton('C')">C</button>
-            <button class="operator" onclick="pressButton('/')">/</button>
-            <button class="operator" onclick="pressButton('*')">*</button>
-            <button class="operator" onclick="pressButton('-')">-</button>
-            
-            <button onclick="pressButton('7)">7</button>
-            <button onclick="pressButton('8')">8</button>
-            <button onclick="pressButton('9')">9</button>
-            <button class="operator" onclick="pressButton('+')">+</button>
-            
-            <button onclick="pressButton('4')">4</button>
-            <button onclick="pressButton('5')">5</button>
-            <button onclick="pressButton('6')">6</button>
-            <button onclick="pressButton('.')">.</button>
-            
-            <button onclick="pressButton('1')">1</button>
-            <button onclick="pressButton('2')">2</button>
-            <button onclick="pressButton('3')">3</button>
-            
-            <button onclick="pressButton('0')">0</button>
-            <button class="equal" onclick="pressButton('=')">=</button>
-        </div>
-    </div>
-  
-    <script src="script.js"></script>
-</body>
-</html>
-  
+        // Modulasi frekuensi kilat agar bunyinya terdengar lucu/elektronik imut
+        oscillator.frequency.setValueAtTime(600,audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(900,audioCtx.currentTime + 0.08);
+
+        // Atur volume dan durasi suara agar soft (fade out)
+        gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.12)
+   } catch (error) {
+       console.log("Gagal memutar audio otomattis: ", error);
+   }
+}
+
+/**
+ * Fungsi utama menangani input tombol kalkulator
+ */
+ function pressButton(value) {
+   // Jalankan efek suara tiap tombol ditekan
+   playBeepSound();
+
+    if (value === 'C') {
+        display.value = '';
+    } else if (value === '=') {
+        try {
+            if (display.value) {
+               // eval() akan menghitung ekspresi string matematika langsung
+                display.value = eval(display.value);
+            }
+        } catch (error) {
+            display.value = 'Error';
+        }
+    } else {
+        // Bersihkan tulisan 'Error' jika user lanhsung menekan tombol angka baru
+        if (display.value === 'Error') {
+            display.value = '';
+        }
+        display.value += value; 
+    }
+}
